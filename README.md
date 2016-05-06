@@ -1,5 +1,6 @@
 # gouitify
 A simple app consuming Spotify web REST API
+https://developer.spotify.com/web-api/
 
 # libs
 - https://github.com/JakeWharton/butterknife
