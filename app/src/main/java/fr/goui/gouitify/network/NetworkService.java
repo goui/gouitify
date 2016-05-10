@@ -40,7 +40,7 @@ public interface NetworkService {
     Observable<Album> getAlbum(@Path("id") String id);
 
     @GET("artists/{id}/albums")
-    Observable<List<Album>> getArtistAlbums(@Path("id") String id);
+    Observable<PagingObject.AlbumsContainer> getArtistAlbums(@Path("id") String id);
 
     @GET("albums/{id}/tracks")
     Observable<List<Track>> getAlbumTracks(@Path("id") String id);

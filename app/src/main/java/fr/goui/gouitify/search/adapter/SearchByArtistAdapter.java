@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -15,10 +16,9 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import fr.goui.gouitify.R;
+import fr.goui.gouitify.listener.OnArtistClickListener;
 import fr.goui.gouitify.model.Artist;
-import fr.goui.gouitify.model.Track;
 
 /**
  *
@@ -31,6 +31,8 @@ public class SearchByArtistAdapter extends RecyclerView.Adapter<SearchByArtistAd
 
     private List<Artist> mListOfArtists;
 
+    private OnArtistClickListener mOnArtistClickListener;
+
     public SearchByArtistAdapter(Context context) {
         mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
@@ -41,6 +43,10 @@ public class SearchByArtistAdapter extends RecyclerView.Adapter<SearchByArtistAd
         notifyDataSetChanged();
     }
 
+    public void setOnArtistClickListener(OnArtistClickListener onArtistClickListener) {
+        mOnArtistClickListener = onArtistClickListener;
+    }
+
     @Override
     public SearchByArtistAdapter.ArtistViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ArtistViewHolder(mLayoutInflater.inflate(R.layout.layout_item_artist, parent, false));
@@ -49,7 +55,7 @@ public class SearchByArtistAdapter extends RecyclerView.Adapter<SearchByArtistAd
     @Override
     public void onBindViewHolder(SearchByArtistAdapter.ArtistViewHolder holder, int position) {
         holder.position = position;
-        Artist artist = mListOfArtists.get(position);
+        final Artist artist = mListOfArtists.get(position);
         if (artist != null) {
             holder.artistNameTextView.setText(artist.getName());
             int rating = holder.artistPopularityRatingBar.getNumStars();
@@ -60,6 +66,14 @@ public class SearchByArtistAdapter extends RecyclerView.Adapter<SearchByArtistAd
                         .placeholder(R.drawable.ic_person_24dp)
                         .into(holder.artistThumbnail);
             }
+            holder.artistLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mOnArtistClickListener != null) {
+                        mOnArtistClickListener.onArtistClick(artist.getId());
+                    }
+                }
+            });
         }
     }
 
@@ -70,6 +84,9 @@ public class SearchByArtistAdapter extends RecyclerView.Adapter<SearchByArtistAd
 
     static class ArtistViewHolder extends RecyclerView.ViewHolder {
         int position;
+
+        @BindView(R.id.artist_layout)
+        LinearLayout artistLayout;
 
         @BindView(R.id.artist_name)
         TextView artistNameTextView;
@@ -83,11 +100,6 @@ public class SearchByArtistAdapter extends RecyclerView.Adapter<SearchByArtistAd
         public ArtistViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-        }
-
-        @OnClick(R.id.artist_layout)
-        public void onClick() {
-            // TODO go to artist details
         }
     }
 }

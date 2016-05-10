@@ -20,7 +20,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import fr.goui.gouitify.R;
+import fr.goui.gouitify.details.view.ArtistDetailsActivity;
 import fr.goui.gouitify.details.view.TrackDetailsActivity;
+import fr.goui.gouitify.listener.OnArtistClickListener;
 import fr.goui.gouitify.listener.OnTrackClickListener;
 import fr.goui.gouitify.model.Album;
 import fr.goui.gouitify.model.Artist;
@@ -31,7 +33,7 @@ import fr.goui.gouitify.search.adapter.SearchByTrackAdapter;
 import fr.goui.gouitify.search.presenter.ISearchPresenter;
 import fr.goui.gouitify.search.presenter.SearchPresenter;
 
-public class SearchActivity extends AppCompatActivity implements ISearchView, OnTrackClickListener {
+public class SearchActivity extends AppCompatActivity implements ISearchView, OnTrackClickListener, OnArtistClickListener {
 
     // TODO add debounce rx function to avoid multiple search triggers if the user is typing fast
 
@@ -146,6 +148,7 @@ public class SearchActivity extends AppCompatActivity implements ISearchView, On
     public void showArtists(List<Artist> listOfArtists) {
         if (mSearchByArtistAdapter == null) {
             mSearchByArtistAdapter = new SearchByArtistAdapter(this);
+            mSearchByArtistAdapter.setOnArtistClickListener(this);
         }
         mSearchByArtistAdapter.setListOfArtists(listOfArtists);
         mRecyclerView.setAdapter(mSearchByArtistAdapter);
@@ -171,6 +174,13 @@ public class SearchActivity extends AppCompatActivity implements ISearchView, On
     public void onTrackClick(String trackId) {
         Intent intent = new Intent(this, TrackDetailsActivity.class);
         intent.putExtra(getString(R.string.intent_extra_track_id), trackId);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onArtistClick(String artistId) {
+        Intent intent = new Intent(this, ArtistDetailsActivity.class);
+        intent.putExtra(getString(R.string.intent_extra_artist_id), artistId);
         startActivity(intent);
     }
 

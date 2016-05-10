@@ -16,5 +16,6 @@
 
     <!--Intent extra-->
     <string name="intent_extra_track_id">intent_extra_track_id</string>
+    <string name="intent_extra_artist_id">intent_extra_artist_id</string>
 
 </resources>
