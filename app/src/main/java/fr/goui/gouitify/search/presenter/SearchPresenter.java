@@ -1,9 +1,7 @@
 package fr.goui.gouitify.search.presenter;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import fr.goui.gouitify.IPresenter;
 import fr.goui.gouitify.MyApplication;
 import fr.goui.gouitify.model.Album;
 import fr.goui.gouitify.model.Artist;
@@ -19,7 +17,9 @@ import rx.schedulers.Schedulers;
 /**
  *
  */
-public class SearchPresenter implements IPresenter<ISearchView> {
+public class SearchPresenter implements ISearchPresenter {
+
+    // TODO put in cache to avoid unnecessary http calls
 
     private ISearchView mSearchView;
 
@@ -43,19 +43,35 @@ public class SearchPresenter implements IPresenter<ISearchView> {
     @Override
     public void detachView() {
         mSearchView = null;
+        mListOfTracks = null;
+        mListOfArtists = null;
+        mListOfAlbums = null;
         if (mSubscription != null) {
             mSubscription.unsubscribe();
         }
     }
 
-    public void setType(int type) {
-        mSearchType = type;
+    @Override
+    public void setSearchType(int searchType) {
+        mSearchType = searchType;
+        checkBeforeSearch();
+    }
+
+    @Override
+    public void setSearchString(String searchString) {
+        mSearchText = searchString;
+        checkBeforeSearch();
+    }
+
+    private void checkBeforeSearch() {
         if (mSearchText != null && mSearchText.length() > 2) {
             search(mSearchText);
+        } else {
+            mSearchView.hideList();
         }
     }
 
-    public void search(String searchString) {
+    private void search(String searchString) {
         mSearchText = searchString;
         mSearchView.showProgressBar();
         if (mSubscription != null) {

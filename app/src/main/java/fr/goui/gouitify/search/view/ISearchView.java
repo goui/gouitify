@@ -19,4 +19,6 @@ public interface ISearchView extends IView {
     void showArtists(List<Artist> listOfArtists);
 
     void showAlbums(List<Album> listOfAlbums);
+
+    void hideList();
 }

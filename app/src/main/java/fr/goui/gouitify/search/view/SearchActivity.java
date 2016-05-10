@@ -25,11 +25,14 @@ import fr.goui.gouitify.model.Track;
 import fr.goui.gouitify.search.adapter.SearchByAlbumAdapter;
 import fr.goui.gouitify.search.adapter.SearchByArtistAdapter;
 import fr.goui.gouitify.search.adapter.SearchByTrackAdapter;
+import fr.goui.gouitify.search.presenter.ISearchPresenter;
 import fr.goui.gouitify.search.presenter.SearchPresenter;
 
 public class SearchActivity extends AppCompatActivity implements ISearchView {
 
-    private SearchPresenter mPresenter;
+    // TODO add debounce rx function to avoid multiple search triggers if the user is typing fast
+
+    private ISearchPresenter mPresenter;
 
     private SearchByTrackAdapter mSearchByTrackAdapter;
 
@@ -59,8 +62,8 @@ public class SearchActivity extends AppCompatActivity implements ISearchView {
 
         @Override
         public void afterTextChanged(Editable s) {
-            if (s != null && s.toString().length() > 2) {
-                mPresenter.search(s.toString());
+            if (s != null) {
+                mPresenter.setSearchString(s.toString());
             }
         }
     };
@@ -98,7 +101,7 @@ public class SearchActivity extends AppCompatActivity implements ISearchView {
                     break;
             }
 
-            mPresenter.setType(searchType);
+            mPresenter.setSearchType(searchType);
         }
     }
 
@@ -153,6 +156,11 @@ public class SearchActivity extends AppCompatActivity implements ISearchView {
         mSearchByAlbumAdapter.setListOfAlbums(listOfAlbums);
         mRecyclerView.setAdapter(mSearchByAlbumAdapter);
         showRecyclerView();
+    }
+
+    @Override
+    public void hideList() {
+        mRecyclerView.setVisibility(View.GONE);
     }
 
     @Override
