@@ -2,6 +2,7 @@ package fr.goui.gouitify.search.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import fr.goui.gouitify.R;
+import fr.goui.gouitify.listener.OnTrackClickListener;
 import fr.goui.gouitify.model.Track;
 
 /**
@@ -27,6 +29,8 @@ public class SearchByTrackAdapter extends RecyclerView.Adapter<SearchByTrackAdap
 
     private List<Track> mListOfTracks;
 
+    private OnTrackClickListener mOnTrackClickListener;
+
     public SearchByTrackAdapter(Context context) {
         mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
@@ -37,15 +41,19 @@ public class SearchByTrackAdapter extends RecyclerView.Adapter<SearchByTrackAdap
         notifyDataSetChanged();
     }
 
+    public void setOnTrackClickListener(OnTrackClickListener onTrackClickListener) {
+        mOnTrackClickListener = onTrackClickListener;
+    }
+
     @Override
     public SearchByTrackAdapter.TrackViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new TrackViewHolder(mLayoutInflater.inflate(R.layout.layout_item_track, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(SearchByTrackAdapter.TrackViewHolder holder, int position) {
+    public void onBindViewHolder(SearchByTrackAdapter.TrackViewHolder holder, final int position) {
         holder.position = position;
-        Track track = mListOfTracks.get(position);
+        final Track track = mListOfTracks.get(position);
         if (track != null) {
             holder.trackNameTextView.setText(track.getName());
             if (track.getArtists() != null && track.getArtists().size() > 0) {
@@ -54,6 +62,14 @@ public class SearchByTrackAdapter extends RecyclerView.Adapter<SearchByTrackAdap
             if (track.getAlbum() != null) {
                 holder.albumNameTextView.setText(track.getAlbum().getName());
             }
+            holder.trackLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mOnTrackClickListener != null) {
+                        mOnTrackClickListener.onTrackClick(track.getId());
+                    }
+                }
+            });
         }
     }
 
@@ -64,6 +80,9 @@ public class SearchByTrackAdapter extends RecyclerView.Adapter<SearchByTrackAdap
 
     static class TrackViewHolder extends RecyclerView.ViewHolder {
         int position;
+
+        @BindView(R.id.track_layout)
+        LinearLayout trackLayout;
 
         @BindView(R.id.track_name)
         TextView trackNameTextView;
@@ -77,11 +96,6 @@ public class SearchByTrackAdapter extends RecyclerView.Adapter<SearchByTrackAdap
         public TrackViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-        }
-
-        @OnClick(R.id.track_layout)
-        public void onClick() {
-            // TODO go to track details
         }
     }
 }

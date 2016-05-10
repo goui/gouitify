@@ -1,6 +1,7 @@
 package fr.goui.gouitify.search.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,6 +20,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import fr.goui.gouitify.R;
+import fr.goui.gouitify.details.view.TrackDetailsActivity;
+import fr.goui.gouitify.listener.OnTrackClickListener;
 import fr.goui.gouitify.model.Album;
 import fr.goui.gouitify.model.Artist;
 import fr.goui.gouitify.model.Track;
@@ -28,7 +31,7 @@ import fr.goui.gouitify.search.adapter.SearchByTrackAdapter;
 import fr.goui.gouitify.search.presenter.ISearchPresenter;
 import fr.goui.gouitify.search.presenter.SearchPresenter;
 
-public class SearchActivity extends AppCompatActivity implements ISearchView {
+public class SearchActivity extends AppCompatActivity implements ISearchView, OnTrackClickListener {
 
     // TODO add debounce rx function to avoid multiple search triggers if the user is typing fast
 
@@ -132,6 +135,7 @@ public class SearchActivity extends AppCompatActivity implements ISearchView {
     public void showTracks(List<Track> listOfTracks) {
         if (mSearchByTrackAdapter == null) {
             mSearchByTrackAdapter = new SearchByTrackAdapter(this);
+            mSearchByTrackAdapter.setOnTrackClickListener(this);
         }
         mSearchByTrackAdapter.setListOfTracks(listOfTracks);
         mRecyclerView.setAdapter(mSearchByTrackAdapter);
@@ -161,6 +165,13 @@ public class SearchActivity extends AppCompatActivity implements ISearchView {
     @Override
     public void hideList() {
         mRecyclerView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onTrackClick(String trackId) {
+        Intent intent = new Intent(this, TrackDetailsActivity.class);
+        intent.putExtra(getString(R.string.intent_extra_track_id), trackId);
+        startActivity(intent);
     }
 
     @Override

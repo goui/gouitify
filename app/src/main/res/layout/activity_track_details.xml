@@ -4,13 +4,19 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
+    <ProgressBar
+        android:id="@+id/track_details_progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
+
     <ImageView
         android:id="@+id/track_image"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:contentDescription="@string/Track"
-        android:scaleType="center"
+        android:scaleType="fitCenter"
         android:src="@drawable/ic_audiotrack_128dp"/>
 
     <TextView
@@ -35,15 +41,32 @@
         android:orientation="vertical">
 
         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingEnd="8dp"
+            android:paddingStart="8dp"
+            android:paddingTop="8dp"
+            android:text="@string/Artist"/>
+
+        <TextView
             android:id="@+id/track_artist_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
+            android:drawableEnd="@drawable/ic_chevron_right_24dp"
             android:padding="8dp"
             android:text="@string/Artist"
             android:textColor="@android:color/black"
             android:textSize="20sp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingEnd="8dp"
+            android:paddingStart="8dp"
+            android:paddingTop="8dp"
+            android:text="@string/Album"/>
 
         <TextView
             android:id="@+id/track_album_name"
@@ -51,8 +74,10 @@
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
+            android:drawableEnd="@drawable/ic_chevron_right_24dp"
             android:padding="8dp"
             android:text="@string/Album"
+            android:textColor="@android:color/black"
             android:textSize="16sp"/>
     </LinearLayout>
 </LinearLayout>

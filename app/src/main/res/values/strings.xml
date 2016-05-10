@@ -13,4 +13,8 @@
     <string name="Genre">Genre</string>
     <string name="Number_of_albums">Number of albums</string>
     <string name="Number_of_tracks">Number of tracks</string>
+
+    <!--Intent extra-->
+    <string name="intent_extra_track_id">intent_extra_track_id</string>
+
 </resources>
