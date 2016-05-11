@@ -1,6 +1,7 @@
 package fr.goui.gouitify.details.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,11 +17,14 @@ import butterknife.OnClick;
 import fr.goui.gouitify.R;
 import fr.goui.gouitify.details.presenter.ITrackDetailsPresenter;
 import fr.goui.gouitify.details.presenter.TrackDetailsPresenter;
+import fr.goui.gouitify.listener.OnArtistClickListener;
 import fr.goui.gouitify.model.Track;
 
 public class TrackDetailsActivity extends AppCompatActivity implements ITrackDetailsView {
 
     private ITrackDetailsPresenter mPresenter;
+
+    private Track mTrack;
 
     @BindView(R.id.track_name)
     TextView mTrackNameTextView;
@@ -67,7 +71,9 @@ public class TrackDetailsActivity extends AppCompatActivity implements ITrackDet
 
     @OnClick(R.id.track_artist_name)
     public void onArtistNameClick() {
-        // TODO go to artist details
+        Intent intent = new Intent(this, ArtistDetailsActivity.class);
+        intent.putExtra(getString(R.string.intent_extra_artist_id), mTrack.getArtists().get(0).getId());
+        startActivity(intent);
     }
 
     @OnClick(R.id.track_album_name)
@@ -92,6 +98,7 @@ public class TrackDetailsActivity extends AppCompatActivity implements ITrackDet
 
     @Override
     public void showTrackDetails(Track track) {
+        mTrack = track;
         mTrackNameTextView.setText(track.getName());
         mArtistNameTextView.setText(track.getArtists().get(0).getName());
         mAlbumNameTextView.setText(track.getAlbum().getName());
