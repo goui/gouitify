@@ -2,11 +2,13 @@ package fr.goui.gouitify.details.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -37,14 +39,17 @@ public class ArtistDetailsActivity extends AppCompatActivity implements IArtistD
     @BindView(R.id.artist_image)
     ImageView mArtistImageView;
 
-    @BindView(R.id.artist_name)
-    TextView mArtistNameTextView;
-
     @BindView(R.id.artist_albums_recycler_view)
     RecyclerView mAlbumsRecyclerView;
 
     @BindView(R.id.artist_details_progress_bar)
     ProgressBar mProgressBar;
+
+    @BindView(R.id.artist_toolbar)
+    Toolbar mToolbar;
+
+    @BindView(R.id.artist_collapsing_toolbar)
+    CollapsingToolbarLayout mCollapsingToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +57,7 @@ public class ArtistDetailsActivity extends AppCompatActivity implements IArtistD
         setContentView(R.layout.activity_artist_details);
         ButterKnife.bind(this);
 
+        setSupportActionBar(mToolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -97,11 +103,13 @@ public class ArtistDetailsActivity extends AppCompatActivity implements IArtistD
 
     @Override
     public void showArtistDetails(Artist artist) {
-        mArtistNameTextView.setText(artist.getName());
-        Glide.with(this).load(artist.getImages().get(1).getUrl())
-                .centerCrop()
-                .placeholder(R.drawable.ic_person_128dp)
-                .into(mArtistImageView);
+        mCollapsingToolbar.setTitle(artist.getName());
+        if (artist.getImages() != null && artist.getImages().size() > 1) {
+            Glide.with(this).load(artist.getImages().get(1).getUrl())
+                    .centerCrop()
+                    .placeholder(R.drawable.ic_person_128dp)
+                    .into(mArtistImageView);
+        }
         mProgressBar.setVisibility(View.GONE);
     }
 

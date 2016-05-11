@@ -23,7 +23,7 @@ public class Album {
 
     private int popularity;
 
-    private PagingObject.TracksContainer tracks;
+    private TracksContainer tracks;
 
     public List<Artist> getArtists() {
         return artists;
@@ -73,11 +73,11 @@ public class Album {
         this.popularity = popularity;
     }
 
-    public List<Track> getTracks() {
-        return tracks.getTracks();
+    public TracksContainer getTrackContainer() {
+        return tracks;
     }
 
-    public void setTracks(PagingObject.TracksContainer tracks) {
+    public void setTracks(TracksContainer tracks) {
         this.tracks = tracks;
     }
 }

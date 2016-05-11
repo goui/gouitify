@@ -2,11 +2,13 @@ package fr.goui.gouitify.details.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -37,9 +39,6 @@ public class AlbumDetailsActivity extends AppCompatActivity implements IAlbumDet
     @BindView(R.id.album_image)
     ImageView mAlbumImageView;
 
-    @BindView(R.id.album_name)
-    TextView mAlbumNameTextView;
-
     @BindView(R.id.album_artist_name)
     TextView mArtistNameTextView;
 
@@ -49,12 +48,19 @@ public class AlbumDetailsActivity extends AppCompatActivity implements IAlbumDet
     @BindView(R.id.album_details_progress_bar)
     ProgressBar mProgressBar;
 
+    @BindView(R.id.album_toolbar)
+    Toolbar mToolbar;
+
+    @BindView(R.id.album_collapsing_toolbar)
+    CollapsingToolbarLayout mCollapsingToolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_album_details);
         ButterKnife.bind(this);
 
+        setSupportActionBar(mToolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -101,17 +107,19 @@ public class AlbumDetailsActivity extends AppCompatActivity implements IAlbumDet
     @Override
     public void showAlbumDetails(Album album) {
         mAlbum = album;
-        mAlbumNameTextView.setText(album.getName());
+        mCollapsingToolbar.setTitle(album.getName());
         mArtistNameTextView.setText(album.getArtists().get(0).getName());
-        Glide.with(this).load(album.getImages().get(1).getUrl())
-                .centerCrop()
-                .placeholder(R.drawable.ic_person_128dp)
-                .into(mAlbumImageView);
+        if (album.getImages() != null && album.getImages().size() > 1) {
+            Glide.with(this).load(album.getImages().get(1).getUrl())
+                    .centerCrop()
+                    .placeholder(R.drawable.ic_my_library_music_128dp)
+                    .into(mAlbumImageView);
+        }
         if (mTrackAdapter == null) {
             mTrackAdapter = new TrackAdapter(this);
             mTrackAdapter.setOnTrackClickListener(this);
         }
-        mTrackAdapter.setListOfTracks(album.getTracks());
+        mTrackAdapter.setListOfTracks(album.getTrackContainer().getTracks());
         mTracksRecyclerView.setAdapter(mTrackAdapter);
         mProgressBar.setVisibility(View.GONE);
     }
