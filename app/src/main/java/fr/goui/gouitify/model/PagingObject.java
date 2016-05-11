@@ -2,15 +2,13 @@ package fr.goui.gouitify.model;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
 /**
  *
  */
 public class PagingObject {
 
     @SerializedName("artists")
-    private ArtistContainer artistsContainer;
+    private ArtistsContainer artistsContainer;
 
     @SerializedName("albums")
     private AlbumsContainer albumsContainer;
@@ -18,11 +16,11 @@ public class PagingObject {
     @SerializedName("tracks")
     private TracksContainer tracksContainer;
 
-    public ArtistContainer getArtistsContainer() {
+    public ArtistsContainer getArtistsContainer() {
         return artistsContainer;
     }
 
-    public void setArtistsContainer(ArtistContainer artistsContainer) {
+    public void setArtistsContainer(ArtistsContainer artistsContainer) {
         this.artistsContainer = artistsContainer;
     }
 
@@ -40,47 +38,5 @@ public class PagingObject {
 
     public void setTracksContainer(TracksContainer tracksContainer) {
         this.tracksContainer = tracksContainer;
-    }
-
-    public class ArtistContainer {
-
-        @SerializedName("items")
-        private List<Artist> artists;
-
-        public List<Artist> getArtists() {
-            return artists;
-        }
-
-        public void setArtists(List<Artist> artists) {
-            this.artists = artists;
-        }
-    }
-
-    public class AlbumsContainer {
-
-        @SerializedName("items")
-        private List<Album> albums;
-
-        public List<Album> getAlbums() {
-            return albums;
-        }
-
-        public void setAlbums(List<Album> albums) {
-            this.albums = albums;
-        }
-    }
-
-    public class TracksContainer {
-
-        @SerializedName("items")
-        private List<Track> tracks;
-
-        public List<Track> getTracks() {
-            return tracks;
-        }
-
-        public void setTracks(List<Track> tracks) {
-            this.tracks = tracks;
-        }
     }
 }

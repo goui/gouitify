@@ -21,18 +21,18 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import fr.goui.gouitify.R;
+import fr.goui.gouitify.adapter.AlbumAdapter;
 import fr.goui.gouitify.details.presenter.ArtistDetailsPresenter;
 import fr.goui.gouitify.details.presenter.IDetailsPresenter;
 import fr.goui.gouitify.listener.OnAlbumClickListener;
 import fr.goui.gouitify.model.Album;
 import fr.goui.gouitify.model.Artist;
-import fr.goui.gouitify.search.adapter.SearchByAlbumAdapter;
 
 public class ArtistDetailsActivity extends AppCompatActivity implements IArtistDetailsView, OnAlbumClickListener {
 
     private IDetailsPresenter<IArtistDetailsView> mPresenter;
 
-    private SearchByAlbumAdapter mAlbumsAdapter;
+    private AlbumAdapter mAlbumAdapter;
 
     @BindView(R.id.artist_image)
     ImageView mArtistImageView;
@@ -107,12 +107,12 @@ public class ArtistDetailsActivity extends AppCompatActivity implements IArtistD
 
     @Override
     public void showArtistAlbums(List<Album> albums) {
-        if (mAlbumsAdapter == null) {
-            mAlbumsAdapter = new SearchByAlbumAdapter(this);
-            mAlbumsAdapter.setOnAlbumClickListener(this);
+        if (mAlbumAdapter == null) {
+            mAlbumAdapter = new AlbumAdapter(this);
+            mAlbumAdapter.setOnAlbumClickListener(this);
         }
-        mAlbumsAdapter.setListOfAlbums(albums);
-        mAlbumsRecyclerView.setAdapter(mAlbumsAdapter);
+        mAlbumAdapter.setListOfAlbums(albums);
+        mAlbumsRecyclerView.setAdapter(mAlbumAdapter);
     }
 
     @Override

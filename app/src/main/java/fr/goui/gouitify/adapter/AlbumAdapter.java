@@ -1,4 +1,4 @@
-package fr.goui.gouitify.search.adapter;
+package fr.goui.gouitify.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -22,7 +22,7 @@ import fr.goui.gouitify.model.Album;
 /**
  *
  */
-public class SearchByAlbumAdapter extends RecyclerView.Adapter<SearchByAlbumAdapter.AlbumViewHolder> {
+public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder> {
 
     private Context mContext;
 
@@ -32,7 +32,7 @@ public class SearchByAlbumAdapter extends RecyclerView.Adapter<SearchByAlbumAdap
 
     private OnAlbumClickListener mOnAlbumClickListener;
 
-    public SearchByAlbumAdapter(Context context) {
+    public AlbumAdapter(Context context) {
         mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
     }
@@ -47,12 +47,12 @@ public class SearchByAlbumAdapter extends RecyclerView.Adapter<SearchByAlbumAdap
     }
 
     @Override
-    public SearchByAlbumAdapter.AlbumViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public AlbumAdapter.AlbumViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new AlbumViewHolder(mLayoutInflater.inflate(R.layout.layout_item_album, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(SearchByAlbumAdapter.AlbumViewHolder holder, int position) {
+    public void onBindViewHolder(AlbumAdapter.AlbumViewHolder holder, int position) {
         holder.position = position;
         final Album album = mListOfAlbums.get(position);
         if (album != null) {

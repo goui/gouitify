@@ -1,6 +1,7 @@
 package fr.goui.gouitify.network;
 
 import fr.goui.gouitify.model.Album;
+import fr.goui.gouitify.model.AlbumsContainer;
 import fr.goui.gouitify.model.Artist;
 import fr.goui.gouitify.model.PagingObject;
 import fr.goui.gouitify.model.Track;
@@ -38,7 +39,7 @@ public interface NetworkService {
     Observable<Album> getAlbum(@Path("id") String id);
 
     @GET("artists/{id}/albums")
-    Observable<PagingObject.AlbumsContainer> getArtistAlbums(@Path("id") String id);
+    Observable<AlbumsContainer> getArtistAlbums(@Path("id") String id);
 
     class Factory {
         public static NetworkService create() {

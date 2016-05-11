@@ -20,6 +20,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import fr.goui.gouitify.R;
+import fr.goui.gouitify.adapter.AlbumAdapter;
+import fr.goui.gouitify.adapter.TrackAdapter;
 import fr.goui.gouitify.details.view.AlbumDetailsActivity;
 import fr.goui.gouitify.details.view.ArtistDetailsActivity;
 import fr.goui.gouitify.details.view.TrackDetailsActivity;
@@ -29,9 +31,7 @@ import fr.goui.gouitify.listener.OnTrackClickListener;
 import fr.goui.gouitify.model.Album;
 import fr.goui.gouitify.model.Artist;
 import fr.goui.gouitify.model.Track;
-import fr.goui.gouitify.search.adapter.SearchByAlbumAdapter;
-import fr.goui.gouitify.search.adapter.SearchByArtistAdapter;
-import fr.goui.gouitify.search.adapter.SearchByTrackAdapter;
+import fr.goui.gouitify.adapter.ArtistAdapter;
 import fr.goui.gouitify.search.presenter.ISearchPresenter;
 import fr.goui.gouitify.search.presenter.SearchPresenter;
 
@@ -41,11 +41,11 @@ public class SearchActivity extends AppCompatActivity implements ISearchView, On
 
     private ISearchPresenter mPresenter;
 
-    private SearchByTrackAdapter mSearchByTrackAdapter;
+    private TrackAdapter mTrackAdapter;
 
-    private SearchByArtistAdapter mSearchByArtistAdapter;
+    private ArtistAdapter mArtistAdapter;
 
-    private SearchByAlbumAdapter mSearchByAlbumAdapter;
+    private AlbumAdapter mAlbumAdapter;
 
     @BindView(R.id.search_edit_text)
     EditText mSearchEditText;
@@ -137,34 +137,34 @@ public class SearchActivity extends AppCompatActivity implements ISearchView, On
 
     @Override
     public void showTracks(List<Track> listOfTracks) {
-        if (mSearchByTrackAdapter == null) {
-            mSearchByTrackAdapter = new SearchByTrackAdapter(this);
-            mSearchByTrackAdapter.setOnTrackClickListener(this);
+        if (mTrackAdapter == null) {
+            mTrackAdapter = new TrackAdapter(this);
+            mTrackAdapter.setOnTrackClickListener(this);
         }
-        mSearchByTrackAdapter.setListOfTracks(listOfTracks);
-        mRecyclerView.setAdapter(mSearchByTrackAdapter);
+        mTrackAdapter.setListOfTracks(listOfTracks);
+        mRecyclerView.setAdapter(mTrackAdapter);
         showRecyclerView();
     }
 
     @Override
     public void showArtists(List<Artist> listOfArtists) {
-        if (mSearchByArtistAdapter == null) {
-            mSearchByArtistAdapter = new SearchByArtistAdapter(this);
-            mSearchByArtistAdapter.setOnArtistClickListener(this);
+        if (mArtistAdapter == null) {
+            mArtistAdapter = new ArtistAdapter(this);
+            mArtistAdapter.setOnArtistClickListener(this);
         }
-        mSearchByArtistAdapter.setListOfArtists(listOfArtists);
-        mRecyclerView.setAdapter(mSearchByArtistAdapter);
+        mArtistAdapter.setListOfArtists(listOfArtists);
+        mRecyclerView.setAdapter(mArtistAdapter);
         showRecyclerView();
     }
 
     @Override
     public void showAlbums(List<Album> listOfAlbums) {
-        if (mSearchByAlbumAdapter == null) {
-            mSearchByAlbumAdapter = new SearchByAlbumAdapter(this);
-            mSearchByAlbumAdapter.setOnAlbumClickListener(this);
+        if (mAlbumAdapter == null) {
+            mAlbumAdapter = new AlbumAdapter(this);
+            mAlbumAdapter.setOnAlbumClickListener(this);
         }
-        mSearchByAlbumAdapter.setListOfAlbums(listOfAlbums);
-        mRecyclerView.setAdapter(mSearchByAlbumAdapter);
+        mAlbumAdapter.setListOfAlbums(listOfAlbums);
+        mRecyclerView.setAdapter(mAlbumAdapter);
         showRecyclerView();
     }
 

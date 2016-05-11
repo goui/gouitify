@@ -1,4 +1,4 @@
-package fr.goui.gouitify.search.adapter;
+package fr.goui.gouitify.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -23,7 +23,7 @@ import fr.goui.gouitify.model.Artist;
 /**
  *
  */
-public class SearchByArtistAdapter extends RecyclerView.Adapter<SearchByArtistAdapter.ArtistViewHolder> {
+public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ArtistViewHolder> {
 
     private Context mContext;
 
@@ -33,7 +33,7 @@ public class SearchByArtistAdapter extends RecyclerView.Adapter<SearchByArtistAd
 
     private OnArtistClickListener mOnArtistClickListener;
 
-    public SearchByArtistAdapter(Context context) {
+    public ArtistAdapter(Context context) {
         mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
     }
@@ -48,12 +48,12 @@ public class SearchByArtistAdapter extends RecyclerView.Adapter<SearchByArtistAd
     }
 
     @Override
-    public SearchByArtistAdapter.ArtistViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ArtistAdapter.ArtistViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ArtistViewHolder(mLayoutInflater.inflate(R.layout.layout_item_artist, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(SearchByArtistAdapter.ArtistViewHolder holder, int position) {
+    public void onBindViewHolder(ArtistAdapter.ArtistViewHolder holder, int position) {
         holder.position = position;
         final Artist artist = mListOfArtists.get(position);
         if (artist != null) {

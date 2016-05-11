@@ -2,8 +2,8 @@ package fr.goui.gouitify.details.presenter;
 
 import fr.goui.gouitify.MyApplication;
 import fr.goui.gouitify.details.view.IArtistDetailsView;
+import fr.goui.gouitify.model.AlbumsContainer;
 import fr.goui.gouitify.model.Artist;
-import fr.goui.gouitify.model.PagingObject;
 import fr.goui.gouitify.network.NetworkService;
 import rx.Subscriber;
 import rx.Subscription;
@@ -25,7 +25,7 @@ public class ArtistDetailsPresenter implements IDetailsPresenter<IArtistDetailsV
 
     private Artist mArtist;
 
-    private PagingObject.AlbumsContainer mAlbumsContainer;
+    private AlbumsContainer mAlbumsContainer;
 
     @Override
     public void attachView(IArtistDetailsView view) {
@@ -90,7 +90,7 @@ public class ArtistDetailsPresenter implements IDetailsPresenter<IArtistDetailsV
         mAlbumsSubscription = service.getArtistAlbums(id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new Subscriber<PagingObject.AlbumsContainer>() {
+                .subscribe(new Subscriber<AlbumsContainer>() {
                     @Override
                     public void onCompleted() {
                         mArtistDetailsView.showArtistAlbums(mAlbumsContainer.getAlbums());
@@ -102,7 +102,7 @@ public class ArtistDetailsPresenter implements IDetailsPresenter<IArtistDetailsV
                     }
 
                     @Override
-                    public void onNext(PagingObject.AlbumsContainer albumsContainer) {
+                    public void onNext(AlbumsContainer albumsContainer) {
                         mAlbumsContainer = albumsContainer;
                     }
                 });

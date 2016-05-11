@@ -20,17 +20,17 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import fr.goui.gouitify.R;
+import fr.goui.gouitify.adapter.TrackAdapter;
 import fr.goui.gouitify.details.presenter.AlbumDetailsPresenter;
 import fr.goui.gouitify.details.presenter.IDetailsPresenter;
 import fr.goui.gouitify.listener.OnTrackClickListener;
 import fr.goui.gouitify.model.Album;
-import fr.goui.gouitify.search.adapter.SearchByTrackAdapter;
 
 public class AlbumDetailsActivity extends AppCompatActivity implements IAlbumDetailsView, OnTrackClickListener {
 
     private IDetailsPresenter<IAlbumDetailsView> mPresenter;
 
-    private SearchByTrackAdapter mTracksAdapter;
+    private TrackAdapter mTrackAdapter;
 
     private Album mAlbum;
 
@@ -107,12 +107,12 @@ public class AlbumDetailsActivity extends AppCompatActivity implements IAlbumDet
                 .centerCrop()
                 .placeholder(R.drawable.ic_person_128dp)
                 .into(mAlbumImageView);
-        if (mTracksAdapter == null) {
-            mTracksAdapter = new SearchByTrackAdapter(this);
-            mTracksAdapter.setOnTrackClickListener(this);
+        if (mTrackAdapter == null) {
+            mTrackAdapter = new TrackAdapter(this);
+            mTrackAdapter.setOnTrackClickListener(this);
         }
-        mTracksAdapter.setListOfTracks(album.getTracks());
-        mTracksRecyclerView.setAdapter(mTracksAdapter);
+        mTrackAdapter.setListOfTracks(album.getTracks());
+        mTracksRecyclerView.setAdapter(mTrackAdapter);
         mProgressBar.setVisibility(View.GONE);
     }
 

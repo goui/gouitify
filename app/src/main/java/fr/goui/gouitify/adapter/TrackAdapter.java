@@ -1,4 +1,4 @@
-package fr.goui.gouitify.search.adapter;
+package fr.goui.gouitify.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -19,7 +19,7 @@ import fr.goui.gouitify.model.Track;
 /**
  *
  */
-public class SearchByTrackAdapter extends RecyclerView.Adapter<SearchByTrackAdapter.TrackViewHolder> {
+public class TrackAdapter extends RecyclerView.Adapter<TrackAdapter.TrackViewHolder> {
 
     private Context mContext;
 
@@ -29,7 +29,7 @@ public class SearchByTrackAdapter extends RecyclerView.Adapter<SearchByTrackAdap
 
     private OnTrackClickListener mOnTrackClickListener;
 
-    public SearchByTrackAdapter(Context context) {
+    public TrackAdapter(Context context) {
         mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
     }
@@ -44,12 +44,12 @@ public class SearchByTrackAdapter extends RecyclerView.Adapter<SearchByTrackAdap
     }
 
     @Override
-    public SearchByTrackAdapter.TrackViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public TrackAdapter.TrackViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new TrackViewHolder(mLayoutInflater.inflate(R.layout.layout_item_track, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(SearchByTrackAdapter.TrackViewHolder holder, final int position) {
+    public void onBindViewHolder(TrackAdapter.TrackViewHolder holder, final int position) {
         holder.position = position;
         final Track track = mListOfTracks.get(position);
         if (track != null) {
