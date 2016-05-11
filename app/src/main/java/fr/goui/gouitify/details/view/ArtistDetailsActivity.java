@@ -1,6 +1,7 @@
 package fr.goui.gouitify.details.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,14 +22,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import fr.goui.gouitify.R;
 import fr.goui.gouitify.details.presenter.ArtistDetailsPresenter;
-import fr.goui.gouitify.details.presenter.IArtistDetailsPresenter;
+import fr.goui.gouitify.details.presenter.IDetailsPresenter;
+import fr.goui.gouitify.listener.OnAlbumClickListener;
 import fr.goui.gouitify.model.Album;
 import fr.goui.gouitify.model.Artist;
 import fr.goui.gouitify.search.adapter.SearchByAlbumAdapter;
 
-public class ArtistDetailsActivity extends AppCompatActivity implements IArtistDetailsView {
+public class ArtistDetailsActivity extends AppCompatActivity implements IArtistDetailsView, OnAlbumClickListener {
 
-    private IArtistDetailsPresenter mPresenter;
+    private IDetailsPresenter<IArtistDetailsView> mPresenter;
 
     private SearchByAlbumAdapter mAlbumsAdapter;
 
@@ -107,9 +109,17 @@ public class ArtistDetailsActivity extends AppCompatActivity implements IArtistD
     public void showArtistAlbums(List<Album> albums) {
         if (mAlbumsAdapter == null) {
             mAlbumsAdapter = new SearchByAlbumAdapter(this);
+            mAlbumsAdapter.setOnAlbumClickListener(this);
         }
         mAlbumsAdapter.setListOfAlbums(albums);
         mAlbumsRecyclerView.setAdapter(mAlbumsAdapter);
+    }
+
+    @Override
+    public void onAlbumClick(String albumId) {
+        Intent intent = new Intent(this, AlbumDetailsActivity.class);
+        intent.putExtra(getString(R.string.intent_extra_album_id), albumId);
+        startActivity(intent);
     }
 
     @Override

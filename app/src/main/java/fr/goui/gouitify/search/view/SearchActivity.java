@@ -20,8 +20,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import fr.goui.gouitify.R;
+import fr.goui.gouitify.details.view.AlbumDetailsActivity;
 import fr.goui.gouitify.details.view.ArtistDetailsActivity;
 import fr.goui.gouitify.details.view.TrackDetailsActivity;
+import fr.goui.gouitify.listener.OnAlbumClickListener;
 import fr.goui.gouitify.listener.OnArtistClickListener;
 import fr.goui.gouitify.listener.OnTrackClickListener;
 import fr.goui.gouitify.model.Album;
@@ -33,7 +35,7 @@ import fr.goui.gouitify.search.adapter.SearchByTrackAdapter;
 import fr.goui.gouitify.search.presenter.ISearchPresenter;
 import fr.goui.gouitify.search.presenter.SearchPresenter;
 
-public class SearchActivity extends AppCompatActivity implements ISearchView, OnTrackClickListener, OnArtistClickListener {
+public class SearchActivity extends AppCompatActivity implements ISearchView, OnTrackClickListener, OnArtistClickListener, OnAlbumClickListener {
 
     // TODO add debounce rx function to avoid multiple search triggers if the user is typing fast
 
@@ -159,6 +161,7 @@ public class SearchActivity extends AppCompatActivity implements ISearchView, On
     public void showAlbums(List<Album> listOfAlbums) {
         if (mSearchByAlbumAdapter == null) {
             mSearchByAlbumAdapter = new SearchByAlbumAdapter(this);
+            mSearchByAlbumAdapter.setOnAlbumClickListener(this);
         }
         mSearchByAlbumAdapter.setListOfAlbums(listOfAlbums);
         mRecyclerView.setAdapter(mSearchByAlbumAdapter);
@@ -181,6 +184,13 @@ public class SearchActivity extends AppCompatActivity implements ISearchView, On
     public void onArtistClick(String artistId) {
         Intent intent = new Intent(this, ArtistDetailsActivity.class);
         intent.putExtra(getString(R.string.intent_extra_artist_id), artistId);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onAlbumClick(String albumId) {
+        Intent intent = new Intent(this, AlbumDetailsActivity.class);
+        intent.putExtra(getString(R.string.intent_extra_album_id), albumId);
         startActivity(intent);
     }
 

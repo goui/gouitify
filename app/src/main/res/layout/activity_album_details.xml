@@ -4,6 +4,12 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
+    <ProgressBar
+        android:id="@+id/album_details_progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
+
     <ImageView
         android:id="@+id/album_image"
         android:layout_width="match_parent"
@@ -35,15 +41,32 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/track_artist_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingEnd="8dp"
+            android:paddingStart="8dp"
+            android:paddingTop="8dp"
+            android:text="@string/Artist"/>
+
+        <TextView
+            android:id="@+id/album_artist_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/ic_chevron_right_24dp"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
             android:padding="8dp"
             android:text="@string/Artist"
             android:textColor="@android:color/black"
             android:textSize="20sp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingEnd="8dp"
+            android:paddingStart="8dp"
+            android:paddingTop="8dp"
+            android:text="@string/Tracks"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/album_tracks_recycler_view"

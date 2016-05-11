@@ -13,7 +13,7 @@ import rx.schedulers.Schedulers;
 /**
  *
  */
-public class ArtistDetailsPresenter implements IArtistDetailsPresenter {
+public class ArtistDetailsPresenter implements IDetailsPresenter<IArtistDetailsView> {
 
     private static final String ERROR_EMPTY_ID_STRING = "Error - empty id string";
 

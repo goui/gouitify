@@ -5,8 +5,10 @@
     <string name="By_artist">By artist</string>
     <string name="By_album">By album</string>
     <string name="Track">Track</string>
+    <string name="Tracks">Tracks</string>
     <string name="Artist">Artist</string>
     <string name="Album">Album</string>
+    <string name="Albums">Albums</string>
     <string name="by">by</string>
     <string name="on">on</string>
     <string name="Details">Details</string>
@@ -17,5 +19,6 @@
     <!--Intent extra-->
     <string name="intent_extra_track_id">intent_extra_track_id</string>
     <string name="intent_extra_artist_id">intent_extra_artist_id</string>
+    <string name="intent_extra_album_id">intent_extra_album_id</string>
 
 </resources>

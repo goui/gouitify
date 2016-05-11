@@ -15,14 +15,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import fr.goui.gouitify.R;
-import fr.goui.gouitify.details.presenter.ITrackDetailsPresenter;
+import fr.goui.gouitify.details.presenter.IDetailsPresenter;
 import fr.goui.gouitify.details.presenter.TrackDetailsPresenter;
-import fr.goui.gouitify.listener.OnArtistClickListener;
 import fr.goui.gouitify.model.Track;
 
 public class TrackDetailsActivity extends AppCompatActivity implements ITrackDetailsView {
 
-    private ITrackDetailsPresenter mPresenter;
+    private IDetailsPresenter<ITrackDetailsView> mPresenter;
 
     private Track mTrack;
 
@@ -78,7 +77,9 @@ public class TrackDetailsActivity extends AppCompatActivity implements ITrackDet
 
     @OnClick(R.id.track_album_name)
     public void onAlbumNameClick() {
-        // TODO go to album details
+        Intent intent = new Intent(this, AlbumDetailsActivity.class);
+        intent.putExtra(getString(R.string.intent_extra_album_id), mTrack.getAlbum().getId());
+        startActivity(intent);
     }
 
     @Override

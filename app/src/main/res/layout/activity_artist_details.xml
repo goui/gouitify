@@ -40,10 +40,20 @@
         android:layout_below="@id/artist_name"
         android:background="@android:color/darker_gray"/>
 
+    <TextView
+        android:id="@+id/artist_albums_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/artist_name"
+        android:paddingEnd="8dp"
+        android:paddingStart="8dp"
+        android:paddingTop="8dp"
+        android:text="@string/Albums"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/artist_albums_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/artist_name"/>
+        android:layout_below="@id/artist_albums_label"/>
 
 </RelativeLayout>

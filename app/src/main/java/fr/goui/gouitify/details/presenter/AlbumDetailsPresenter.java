@@ -1,8 +1,8 @@
 package fr.goui.gouitify.details.presenter;
 
 import fr.goui.gouitify.MyApplication;
-import fr.goui.gouitify.details.view.ITrackDetailsView;
-import fr.goui.gouitify.model.Track;
+import fr.goui.gouitify.details.view.IAlbumDetailsView;
+import fr.goui.gouitify.model.Album;
 import fr.goui.gouitify.network.NetworkService;
 import rx.Subscriber;
 import rx.Subscription;
@@ -12,24 +12,24 @@ import rx.schedulers.Schedulers;
 /**
  *
  */
-public class TrackDetailsPresenter implements IDetailsPresenter<ITrackDetailsView> {
+public class AlbumDetailsPresenter implements IDetailsPresenter<IAlbumDetailsView> {
 
     private static final String ERROR_EMPTY_ID_STRING = "Error - empty id string";
 
-    private ITrackDetailsView mTrackDetailsView;
+    private IAlbumDetailsView mAlbumDetailsView;
 
     private Subscription mSubscription;
 
-    private Track mTrack;
+    private Album mAlbum;
 
     @Override
-    public void attachView(ITrackDetailsView view) {
-        mTrackDetailsView = view;
+    public void attachView(IAlbumDetailsView view) {
+        mAlbumDetailsView = view;
     }
 
     @Override
     public void detachView() {
-        mTrackDetailsView = null;
+        mAlbumDetailsView = null;
         if (mSubscription != null) {
             mSubscription.unsubscribe();
         }
@@ -38,36 +38,36 @@ public class TrackDetailsPresenter implements IDetailsPresenter<ITrackDetailsVie
     @Override
     public void loadDetails(String id) {
         if (id == null || id.equals("")) {
-            mTrackDetailsView.showError(ERROR_EMPTY_ID_STRING);
+            mAlbumDetailsView.showError(ERROR_EMPTY_ID_STRING);
         } else {
-            mTrackDetailsView.showProgressBar();
-            loadTrackDetails(id);
+            mAlbumDetailsView.showProgressBar();
+            loadAlbumDetails(id);
         }
     }
 
-    private void loadTrackDetails(String id) {
+    private void loadAlbumDetails(String id) {
         if (mSubscription != null) {
             mSubscription.unsubscribe();
         }
-        MyApplication application = MyApplication.get(mTrackDetailsView.getContext());
+        MyApplication application = MyApplication.get(mAlbumDetailsView.getContext());
         NetworkService service = application.getNetworkService();
-        mSubscription = service.getTrack(id)
+        mSubscription = service.getAlbum(id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new Subscriber<Track>() {
+                .subscribe(new Subscriber<Album>() {
                     @Override
                     public void onCompleted() {
-                        mTrackDetailsView.showTrackDetails(mTrack);
+                        mAlbumDetailsView.showAlbumDetails(mAlbum);
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        mTrackDetailsView.showError(e.getMessage());
+                        mAlbumDetailsView.showError(e.getMessage());
                     }
 
                     @Override
-                    public void onNext(Track track) {
-                        mTrack = track;
+                    public void onNext(Album album) {
+                        mAlbum = album;
                     }
                 });
     }

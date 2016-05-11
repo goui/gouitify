@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -14,11 +15,9 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import fr.goui.gouitify.R;
+import fr.goui.gouitify.listener.OnAlbumClickListener;
 import fr.goui.gouitify.model.Album;
-import fr.goui.gouitify.model.Artist;
-import fr.goui.gouitify.model.Track;
 
 /**
  *
@@ -31,6 +30,8 @@ public class SearchByAlbumAdapter extends RecyclerView.Adapter<SearchByAlbumAdap
 
     private List<Album> mListOfAlbums;
 
+    private OnAlbumClickListener mOnAlbumClickListener;
+
     public SearchByAlbumAdapter(Context context) {
         mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
@@ -41,6 +42,10 @@ public class SearchByAlbumAdapter extends RecyclerView.Adapter<SearchByAlbumAdap
         notifyDataSetChanged();
     }
 
+    public void setOnAlbumClickListener(OnAlbumClickListener onAlbumClickListener) {
+        mOnAlbumClickListener = onAlbumClickListener;
+    }
+
     @Override
     public SearchByAlbumAdapter.AlbumViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new AlbumViewHolder(mLayoutInflater.inflate(R.layout.layout_item_album, parent, false));
@@ -49,7 +54,7 @@ public class SearchByAlbumAdapter extends RecyclerView.Adapter<SearchByAlbumAdap
     @Override
     public void onBindViewHolder(SearchByAlbumAdapter.AlbumViewHolder holder, int position) {
         holder.position = position;
-        Album album = mListOfAlbums.get(position);
+        final Album album = mListOfAlbums.get(position);
         if (album != null) {
             holder.albumNameTextView.setText(album.getName());
             if (album.getImages() != null && album.getImages().size() > 2) {
@@ -58,6 +63,14 @@ public class SearchByAlbumAdapter extends RecyclerView.Adapter<SearchByAlbumAdap
                         .placeholder(R.drawable.ic_my_library_music_24dp)
                         .into(holder.albumThumbnail);
             }
+            holder.albumLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mOnAlbumClickListener != null) {
+                        mOnAlbumClickListener.onAlbumClick(album.getId());
+                    }
+                }
+            });
         }
     }
 
@@ -69,6 +82,9 @@ public class SearchByAlbumAdapter extends RecyclerView.Adapter<SearchByAlbumAdap
     static class AlbumViewHolder extends RecyclerView.ViewHolder {
         int position;
 
+        @BindView(R.id.album_layout)
+        LinearLayout albumLayout;
+
         @BindView(R.id.album_name)
         TextView albumNameTextView;
 
@@ -78,11 +94,6 @@ public class SearchByAlbumAdapter extends RecyclerView.Adapter<SearchByAlbumAdap
         public AlbumViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-        }
-
-        @OnClick(R.id.album_layout)
-        public void onClick() {
-            // TODO go to album details
         }
     }
 }
